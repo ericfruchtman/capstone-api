@@ -15,7 +15,7 @@ router.get('/categories', async function(req, res, next){
     res.json(categories);
 });
 
-router.post('./categories/:categoryId/questions', async function(req, res, next){
+router.post('/categories/:categoryId/questions', async function(req, res, next){
     let body = req.body;
     body.categoryId = req.params.categoryId;
     let question = await Question.create(body);
@@ -23,7 +23,7 @@ router.post('./categories/:categoryId/questions', async function(req, res, next)
 });
 
 router.get('/categories/:categoryId/questions', async function(req, res, next){
-    let questions = await Question.findAll({where: {categoryId: req.params.categoryId}});
+    let questions = await Question.findAll({where: {categoryId: req.params.categoryId}, include: [{model: Answer}]});
     res.json(questions);
 });
 
