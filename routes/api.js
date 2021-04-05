@@ -27,7 +27,7 @@ router.get('/categories/:categoryId/questions', async function(req, res, next){
     res.json(questions);
 });
 
-router.post('./categories/:categoryId/questions/:questionId/answers', async function(req, res, next){
+router.post('/categories/:categoryId/questions/:questionId/answers', async function(req, res, next){
     let body = req.body;
     body.questionId = req.params.questionId;
     let answer = await Answer.create(body);
@@ -35,7 +35,7 @@ router.post('./categories/:categoryId/questions/:questionId/answers', async func
 });
 
 router.get('/categories/:categoryId/questions/:questionId/answers', async function(req, res, next){
-    let answers = await Answer.findAll({where: {answerId: req.params.answerId}});
+    let answers = await Answer.findAll({where: {questionId: req.params.questionId}});
     res.json(answers);
 });
 
