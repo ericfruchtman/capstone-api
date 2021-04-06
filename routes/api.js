@@ -10,6 +10,28 @@ const {Category, Question, Answer}= require('../lib/models');
 // POST /api/v1/categories/:categoryId/questions/:questionId/answers
 // GET /api/v1/categories/:categoryId/questions/:questionId/answers
 
+router.get('/profile', async (req, res, next) => {
+    console.log('req.user is', req.user);
+    let u = await User.findOne({where: {email: req.user.email}});
+  
+    res.json({
+      message:'Established a secure route',
+      userId: u.id,
+      token: req.query.token
+    })
+  });
+  
+  router.get('/users/me', async (req, res, next) => {
+    console.log('req.user is', req.user);
+    let u = await User.findOne({where: {email: req.user.email}});
+  
+    res.json({
+      message:'Established a secure route',
+      userId: u.id,
+      token: req.query.token
+    })
+  });
+
 router.get('/categories', async function(req, res, next){
     let categories = await Category.findAll({});
     res.json(categories);

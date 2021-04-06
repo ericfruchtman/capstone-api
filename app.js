@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const passport = require('passport');
 require('./lib/seed')
 require('./lib/models')
 var cors = require('cors')
@@ -10,6 +11,8 @@ var cors = require('cors')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var apiRouter = require('./routes/api');
+
+require('./lib/auth');
 
 var app = express();
 app.use(cors())
@@ -26,7 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/api/v1', apiRouter);
+app.use('/api/v1', passport.authenticate('jwt', {session: false}), apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
